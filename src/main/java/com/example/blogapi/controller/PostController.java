@@ -26,7 +26,8 @@ public class PostController {
 //    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> addPosts(@RequestBody PostDto postDto){
-        return new ResponseEntity<>(postsService.addPosts(postDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(postsService.addPosts(postDto),HttpStatus.CREATED); //sends 201 status code
+//        return ResponseEntity.ok(postsService.addPosts(postDto)); //sends default 200 status code
     }
 
     @GetMapping
@@ -50,6 +51,16 @@ public class PostController {
 //        }
     }
 
+    @DeleteMapping("/{postId}")
+    public String deletePostById(@PathVariable("postId") int postId){
+        return postsService.deleteByPostId(postId);
+    }
+
+    @GetMapping("/postsWithPagination")
+    public List<PostDto> getAllPostsWithPagination(@RequestParam(value = "pageNo",defaultValue = "0") int pageNo,
+                                                             @RequestParam(value = "pageSize",defaultValue = "5") int pageSize){
+        return postsService.getAllPostsWithPagination(pageNo,pageSize);
+    }
 
 
 }
